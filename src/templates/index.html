@@ -1,0 +1,153 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CKD Prediction Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+
+  <header class="header">
+    <h1>🩺 CKD Diagnostic System</h1>
+    <p>AI-powered evaluation using medically validated indicators</p>
+  </header>
+
+  <div class="main-box">
+
+    <h2 class="form-title">Patient Health Input</h2>
+
+    <form method="POST" class="form-container">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Patient ID</label>
+          <input type="text" name="patient_id" placeholder="Enter Patient ID" required>
+        </div>
+
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" name="age" required>
+        </div>
+
+        <div class="form-group">
+          <label>BMI</label>
+          <input type="number" name="bmi" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>Systolic BP</label>
+          <input type="number" name="systolic_bp" required>
+        </div>
+
+        <div class="form-group">
+          <label>Diastolic BP</label>
+          <input type="number" name="diastolic_bp" required>
+        </div>
+
+        <div class="form-group">
+          <label>Serum Creatinine</label>
+          <input type="number" name="creatinine" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>GFR</label>
+          <input type="number" name="gfr" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>Hemoglobin</label>
+          <input type="number" name="hemoglobin" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>Protein in Urine</label>
+          <input type="number" name="protein" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>Fasting Blood Sugar</label>
+          <input type="number" name="sugar" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>HbA1c (%)</label>
+          <input type="number" name="hba1c" step="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label>Family History (Kidney disease)</label>
+          <select name="family_history" required>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button type="submit" class="btn-submit">🔍 Analyze CKD Risk</button>
+    </form>
+
+
+    {% if prediction is not none %}
+    <div class="result-box {{ 'danger' if prediction==1 else 'safe' }}">
+      <h3>{{ '⚠ CKD Risk Detected' if prediction==1 else '✅ No Significant CKD Risk' }}</h3>
+      {% if prob %}<p><b>Risk Probability:</b> {{ (prob*100)|round(2) }}%</p>{% endif %}
+      {% if stage %}<p><b>Stage:</b> {{ stage }}</p>{% endif %}
+      {% if advice %}<p><b>Advice:</b> {{ advice }}</p>{% endif %}
+
+      <div style="margin-top:12px;">
+        {% if download_url %}
+          <a href="{{ download_url }}" class="btn-download">⬇️ Download Report (CSV)</a>
+        {% endif %}
+        {% if download_pdf_url %}
+          <a href="{{ download_pdf_url }}" class="btn-download">⬇️ Download Report (PDF)</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- CHATBOT -->
+  <div class="chatbot-icon" onclick="toggleChat()">💬</div>
+
+  <div class="chatbot-box" id="chatbot">
+
+    <div class="chat-header">
+      AI Assistant
+      <span class="close" onclick="toggleChat()">✖</span>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+      <div class="bot-msg">👋 Hi! Ask me anything about CKD, symptoms, diet or general health.</div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" id="chatMsg" placeholder="Ask something..."
+        onkeydown="if(event.key==='Enter'){sendMsg();}">
+      <button onclick="sendMsg()">Send</button>
+    </div>
+
+  </div>
+
+  <!-- RANGES SIDEBAR -->
+  <button id="rangeToggle" class="range-toggle" aria-label="Show ranges">Ranges</button>
+
+  <aside id="rangeSidebar" class="range-sidebar hidden">
+    <div class="range-header">
+      <strong>Reference Ranges</strong>
+      <button id="closeRanges" class="close-ranges">✖</button>
+    </div>
+    <div id="rangeList" class="range-list">
+      <!-- JS populates -->
+    </div>
+    <div class="range-footer">
+      <small>Values shown are typical references — check local lab units.</small>
+    </div>
+  </aside>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+  </body>
+  </html>

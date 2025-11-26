@@ -1,0 +1,239 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: url('/static/kidney-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #00c8ff;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+/* Main Card */
+.main-box {
+  width: 80%;
+  max-width: 950px;
+  margin: 30px auto;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 25px;
+  border: 2px solid #00c8ff;
+  box-shadow: 0 0 25px #00c8ff50;
+}
+
+/* Title */
+.form-title {
+  text-align: center;
+  color: #00c8ff;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+/* Form grid */
+.form-container {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* Inputs */
+.form-group label {
+  color: #a8dfff;
+  font-weight: 600;
+}
+
+input, select {
+  width: 90%;
+  padding: 10px;
+  background: #001a2c;
+  border: 2px solid #00c8ff;
+  color: #b8eaff;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: #7acaff;
+}
+
+input:focus, select:focus {
+  border-color: #00eaff;
+  box-shadow: 0 0 10px #00eaff;
+  outline: none;
+}
+
+/* Submit button */
+.btn-submit {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #00aaff, #00eaff);
+  border: none;
+  color: white;
+  border-radius: 15px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0px 0px 20px #00eaff70;
+}
+
+.btn-submit:hover {
+  box-shadow: 0px 0px 30px #00eaff;
+}
+
+/* Result */
+.result-box {
+  margin-top: 25px;
+  padding: 18px;
+  border-radius: 15px;
+  color: white;
+}
+
+.safe { background: rgba(0, 255, 100, 0.2); }
+.danger { background: rgba(255, 0, 0, 0.2); }
+
+/* CHATBOT */
+.chatbot-icon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background: #00c8ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #002;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.chatbot-box {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  width: 330px;
+  height: 420px;
+  background: #001322;
+  border: 2px solid #00c8ff;
+  border-radius: 15px;
+  display: none;
+  flex-direction: column;
+}
+
+.chatbot-box.show { display: flex; }
+
+.chat-header {
+  padding: 10px;
+  background: #003d66;
+  color: white;
+  font-weight: bold;
+  display:flex;
+  justify-content: space-between;
+}
+
+.close {
+  cursor: pointer;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  color: white;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #00c8ff;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  background: #000f1a;
+  border: none;
+  color: white;
+}
+
+.chat-input button {
+  padding: 10px 15px;
+  background: #00c8ff;
+  border: none;
+  color: #002;
+  font-weight:bold;
+  cursor: pointer;
+}
+
+.bot-msg, .user-msg {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+}
+
+.bot-msg {
+  background: #003450;
+}
+
+.user-msg {
+  background: #00aaff;
+  align-self: flex-end;
+}
+/* -------------------------
+   RANGES SIDEBAR styles
+   ------------------------- */
+.range-toggle{
+  position: fixed;
+  right: 18px;
+  bottom: 100px;
+  background: linear-gradient(90deg,#22c1c3,#5effff);
+  color: #003040;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 28px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(34,193,195,0.18);
+  z-index: 1200;
+  font-weight: 600;
+}
+.range-sidebar {
+  position: fixed;
+  right: 18px;
+  top: 100px;
+  width: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(20,20,20,0.92);
+  color: #dffaff;
+  border-left: 3px solid #13e3ff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  z-index: 1190;
+  transform: translateX(0);
+  transition: transform .25s ease-in-out, opacity .25s;
+}
+.range-sidebar.hidden { transform: translateX(120%); opacity: 0; pointer-events: none; }
+.range-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.close-ranges { background:transparent; color:#aeeff8; border:none; font-size:14px; cursor:pointer; }
+.range-item { padding:8px; margin-bottom:6px; border-radius:6px; background: rgba(255,255,255,0.02); }
+.range-item .label { font-weight:700; color:#9ef1ff; }
+.range-item .values { font-size:13px; color:#cceff1; }
+.range-item.highlight { background: linear-gradient(90deg, rgba(20,150,180,0.12), rgba(20,180,220,0.06)); border-left:4px solid #14d0ff; }
+.range-footer { margin-top:8px; font-size:11px; color:#bfeff5; opacity:0.9; }
+
+/* small responsive tweak */
+@media (max-width: 900px) {
+  .range-sidebar { width: 260px; top: 80px; }
+  .range-toggle { bottom: 80px; right: 12px; }
+}

@@ -1,0 +1,66 @@
+import streamlit as st
+import pandas as pd
+import os
+
+st.set_page_config(page_title="Patient Records", page_icon="📁", layout="wide")
+
+st.title("📁 Saved Patient Records")
+
+# File path
+file_path = "data/predicted_patients.csv"
+
+# Check if file exists
+if os.path.exists(file_path):
+    df = pd.read_csv(file_path)
+
+    st.success(f"✅ Found {len(df)} patient records")
+
+    # --- 🔎 Filters ---
+    col1, col2 = st.columns(2)
+
+    with col1:
+        prediction_filter = st.selectbox(
+            "Filter by Prediction",
+            options=["All", "Healthy", "CKD Risk"],
+            index=0
+        )
+
+    with col2:
+        age_filter = st.slider(
+            "Filter by Age",
+            min_value=int(df["Age"].min()),
+            max_value=int(df["Age"].max()),
+            value=(int(df["Age"].min()), int(df["Age"].max()))
+        )
+
+    # Apply filters
+    filtered_df = df.copy()
+
+    if prediction_filter != "All":
+        filtered_df = filtered_df[filtered_df["Prediction"] == prediction_filter]
+
+    filtered_df = filtered_df[
+        (filtered_df["Age"] >= age_filter[0]) & (filtered_df["Age"] <= age_filter[1])
+    ]
+
+    # --- 🔎 Search by ID or HbA1c ---
+    search_term = st.text_input("Search (Age, HbA1c, etc.)")
+
+    if search_term:
+        filtered_df = filtered_df[
+            filtered_df.astype(str).apply(lambda row: row.str.contains(search_term, case=False).any(), axis=1)
+        ]
+
+    # Show table
+    st.dataframe(filtered_df, use_container_width=True)
+
+    # Download option
+    csv = filtered_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="⬇️ Download Filtered Records as CSV",
+        data=csv,
+        file_name="filtered_patient_records.csv",
+        mime="text/csv"
+    )
+else:
+    st.warning("⚠️ No patient records found yet. Make a prediction first!")
