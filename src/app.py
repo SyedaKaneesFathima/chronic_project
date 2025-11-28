@@ -1,10 +1,10 @@
 # # src/app.py
-# from download import download_bp, save_csv_record, save_pdf_record
+# from src.download import download_bp, save_csv_record, save_pdf_record
 # from flask import Flask, render_template, request, jsonify
 # import os
 # import joblib
 # import pandas as pd
-# from database import save_patient_record
+# from src.database import save_patient_record
 # from difflib import SequenceMatcher
 # import time
 
@@ -338,12 +338,12 @@
 
 
 # src/app.py
-from download import download_bp, save_csv_record, save_pdf_record
+from src.download import download_bp, save_csv_record, save_pdf_record
 from flask import Flask, render_template, request, jsonify
 import os
 import joblib
 import pandas as pd
-from database import save_patient_record
+from src.database import save_patient_record
 from difflib import SequenceMatcher
 import time
 
