@@ -47,19 +47,21 @@
 import os
 import mysql.connector
 from mysql.connector import Error
+from urllib.parse import urlparse
 
 def create_connection():
     try:
         db_url = os.environ.get("MYSQL_URL")
 
         if db_url:
-            # Railway gives full URL
+            parsed = urlparse(db_url)
+
             conn = mysql.connector.connect(
-                host=db_url.split("@")[1].split(":")[0],
-                port=db_url.split(":")[-1].split("/")[0],
-                user=db_url.split("//")[1].split(":")[0],
-                password=db_url.split(":")[2].split("@")[0],
-                database=db_url.split("/")[-1]
+                host=parsed.hostname,
+                user=parsed.username,
+                password=parsed.password,
+                port=parsed.port,
+                database=parsed.path.lstrip("/")
             )
         else:
             # Local fallback
@@ -71,6 +73,7 @@ def create_connection():
             )
 
         return conn
+
     except Error as e:
         print("❌ DB connection error:", e)
         return None
